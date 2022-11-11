@@ -30,15 +30,20 @@ export default function SignUp() {
 
     if (password !== confirmPassword) return;
 
-    const response = await createAuthUserWithEmailAndPassword(email, password);
-    console.log(response);
-    const { user } = response;
-    await createUserDocumentFromAuth(user, { displayName });
-    // try {
-    // } catch (error) {
-    // if(error.code === "auth/email-already-in-use")
-    //   console.error("User creation error", error.message);
-    // }
+    try {
+      const { user } = await createAuthUserWithEmailAndPassword(
+        email,
+        password
+      );
+      await createUserDocumentFromAuth(user, { displayName });
+      setFormFields(defaultFormFields);
+    } catch (error) {
+      if (error.code === "auth/email-already-in-use") {
+        console.error("Email already exists", error.message);
+      }
+
+      console.error("User creation error", error.message);
+    }
   };
 
   return (
@@ -82,7 +87,9 @@ export default function SignUp() {
           label="Confirm assword"
         />
 
-        <Button type="submit" buttonType="inverted">Sign Up</Button>
+        <Button type="submit">
+          Sign Up
+        </Button>
       </form>
     </div>
   );

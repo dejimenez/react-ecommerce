@@ -6,6 +6,7 @@ import {
   GoogleAuthProvider,
   getRedirectResult,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -25,13 +26,15 @@ const provider = new GoogleAuthProvider();
 provider.setCustomParameters({
   prompt: "select_account",
 });
+// provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
-export const auth = getAuth();
+const auth = getAuth();
+
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, provider);
 
-export const db = getFirestore();
+const db = getFirestore();
 
 export const createUserDocumentFromAuth = async (
   userAuth,
@@ -66,6 +69,12 @@ export const checkRedirectResult = async () => {
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
-  
+
   return createUserWithEmailAndPassword(auth, email, password);
+};
+
+export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+
+  return signInWithEmailAndPassword(auth, email, password);
 };
