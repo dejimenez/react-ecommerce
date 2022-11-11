@@ -11,7 +11,8 @@ export default function Navigation() {
           <Logo className="logo" />
         </Link>
         <nav className="nav-links-container">
-          <Link to="test" className="nav-link">SHOP</Link>
+          <Link to="shop" className="nav-link">SHOP</Link>
+          <Link to="sign-in" className="nav-link">SIGN IN</Link>
         </nav>
       </header>
       <Outlet />
