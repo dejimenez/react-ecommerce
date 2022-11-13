@@ -7,6 +7,7 @@ import {
   getRedirectResult,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -63,8 +64,7 @@ export const createUserDocumentFromAuth = async (
 };
 
 export const checkRedirectResult = async () => {
-  const response = await getRedirectResult(auth);
-  console.log("checkRedirectResult", auth, response);
+  await getRedirectResult(auth);
 };
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
@@ -78,3 +78,5 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 
   return signInWithEmailAndPassword(auth, email, password);
 };
+
+export const signOutUser = () => signOut(auth);

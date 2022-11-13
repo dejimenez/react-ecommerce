@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import Button from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
@@ -12,6 +12,7 @@ import {
 } from "../../utils/firebase/firebase.utils";
 
 import "./sign-in.style.scss";
+import { UserContext } from "../../context/user.context";
 
 const defaultFormFields = {
   email: "",
@@ -22,6 +23,8 @@ export default function SignIn() {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
+  const { setCurrentUser } = useContext(UserContext);
+
   useEffect(() => {
     console.log("Check auth");
     checkRedirectResult();
@@ -30,6 +33,7 @@ export default function SignIn() {
   const signInWithGoogle = async () => {
     const { user } = await signInWithGooglePopup();
     createUserDocumentFromAuth(user);
+    setCurrentUser(user);
   };
 
   const signInWithRedirect = async () => {
