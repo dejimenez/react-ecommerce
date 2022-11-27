@@ -1,9 +1,9 @@
-import CategoriesList from "../../components/categories-list/categories-list.component";
+import Directory from "../../components/directory/directory.component";
 
 function Home() {
   
   return (
-    <CategoriesList />
+    <Directory />
   );
 }
 

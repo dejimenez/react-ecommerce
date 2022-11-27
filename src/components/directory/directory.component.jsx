@@ -1,6 +1,6 @@
-import CategoryItem from "../category-item/category-item.component";
+import DirectoryItem from "../directory-item/directory-item.component";
 
-import "./categories.style.scss";
+import "./directory.style.scss";
 
 export default function CategoriesList() {
   const categories = [
@@ -32,9 +32,9 @@ export default function CategoriesList() {
   ];
 
   return (
-    <div className="categories-container">
+    <div className="directory-container">
       {categories.map((category) => (
-        <CategoryItem {...category} key={category.id} />
+        <DirectoryItem {...category} key={category.id} />
       ))}
     </div>
   );
