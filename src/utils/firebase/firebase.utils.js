@@ -10,7 +10,15 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  query,
+  getDocs,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyANXbEJyBpxiSvBjX2JNx2id_4_TjTCinw",
@@ -84,3 +92,49 @@ export const signOutUser = () => signOut(auth);
 
 export const onAuthStateChangedListener = (callback) =>
   callback && onAuthStateChanged(auth, callback);
+
+export const getCategoriesAndDocuments = async (objectsToAdd) => {
+  const collectionRef = collection(db, "categories");
+
+  const q = query(collectionRef);
+  const querySnapshot = await getDocs(q);
+
+  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+    const { title, items } = docSnapshot.data();
+    return {
+      ...acc,
+      [title.toLowerCase()]: items,
+    };
+  }, {});
+
+  return categoryMap;
+  // const batch = writeBatch(db);
+
+  // objectsToAdd.forEach((object) => {
+  //   const docRef = doc(collectionRef, object.title.toLowerCase());
+  //   batch.set(docRef, object);
+  // });
+
+  // await batch.commit();
+  // console.log("done");
+};
+
+// export const addCollectionAndDocuments = async (
+//   collectionKey,
+//   objectsToAdd
+// ) => {
+//   const collectionRef = collection(db, collectionKey);
+//   const batch = writeBatch(db);
+
+//   objectsToAdd.forEach((object) => {
+//     const docRef = doc(collectionRef, object.title.toLowerCase());
+//     batch.set(docRef, object);
+//   });
+
+//   await batch.commit();
+//   console.log("done");
+// };
+
+// useEffect(() => {
+//   addCollectionAndDocuments("categories", SHOP_DATA);
+// }, []);
