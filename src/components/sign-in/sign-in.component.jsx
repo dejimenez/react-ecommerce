@@ -1,6 +1,6 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
 
 import {
@@ -11,7 +11,7 @@ import {
   signInAuthUserWithEmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
 
-import "./sign-in.style.scss";
+import { SignInContainer, ButtonsContainer } from "./sign-in.style";
 
 const defaultFormFields = {
   email: "",
@@ -23,7 +23,6 @@ export default function SignIn() {
   const { email, password } = formFields;
 
   useEffect(() => {
-    console.log("Check auth");
     checkRedirectResult();
   }, []);
 
@@ -50,7 +49,6 @@ export default function SignIn() {
         email,
         password
       );
-      console.log(response);
       setFormFields(defaultFormFields);
     } catch (error) {
       if (error.code === "auth/email-already-in-use")
@@ -59,7 +57,7 @@ export default function SignIn() {
   };
 
   return (
-    <div className="sign-up-container">
+    <SignInContainer>
       <h2>Already have an account?</h2>
       <span>Sign In with email and password</span>
       <form onSubmit={handleSubmit}>
@@ -80,16 +78,20 @@ export default function SignIn() {
           value={password}
           label="Password"
         />
-        <div className="buttons-container">
+        <ButtonsContainer>
           <Button type="submit">Sign In</Button>
-          <Button type="button" onClick={signInWithGoogle} buttonType="google">
+          <Button
+            type="button"
+            onClick={signInWithGoogle}
+            buttonType={BUTTON_TYPE_CLASSES.google}
+          >
             Google Sign In
           </Button>
           {/* <Button onClick={signInWithRedirect} buttonType="google">
             Google Sign In
           </Button> */}
-        </div>
+        </ButtonsContainer>
       </form>
-    </div>
+    </SignInContainer>
   );
 }
